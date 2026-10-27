@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage Helper Test</title>
+</head>
+<body>
+
+    <h1>Storage Helper Module</h1>
+    <button id="saveBtn">Save Student</button>
+    <button id="readBtn">Read Student</button>
+    <button id="removeBtn">Remove Student</button>
+
+    <p id="result" aria-live="polite"></p>
+
+    <script type="module">
+        import {
+            saveData,
+            getData,
+            removeData
+        } from "./storageHelper.js";
+
+        const result = document.getElementById("result");
+
+        document.getElementById("saveBtn").addEventListener("click", function () {
+            const student = {
+                name: "Anmol Singh",
+                course: "BCA AI",
+                year: 1
+            };
+
+            const success = saveData("student", student);
+
+            result.textContent = success
+                ? "Student data saved."
+                : "Could not save student data.";
+        });
+
+        document.getElementById("readBtn").addEventListener("click", function () {
+            const student = getData("student");
+
+            result.textContent = student
+                ? "Name: " + student.name +
+                  ", Course: " + student.course +
+                  ", Year: " + student.year
+                : "No student data found.";
+        });
+
+        document.getElementById("removeBtn").addEventListener("click", function () {
+            const success = removeData("student");
+
+            result.textContent = success
+                ? "Student data removed."
+                : "Could not remove student data.";
+        });
+    </script>
+
+</body>
+</html>

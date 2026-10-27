@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ecfeff;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        h1 {
+            color: #0e7490;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+        }
+
+        input, textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 18px;
+            background: #0891b2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .summary {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #cffafe;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .summary.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Contact Us</h1>
+
+    <form id="contactForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" required>
+
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" rows="4" required></textarea>
+
+        <button type="submit">Submit Form</button>
+    </form>
+
+    <section id="summary" class="summary"
+             aria-live="polite">
+        <h2>Submission Summary</h2>
+        <p id="summaryName"></p>
+        <p id="summaryEmail"></p>
+        <p id="summarySubject"></p>
+        <p id="summaryMessage"></p>
+    </section>
+</div>
+
+<script>
+    const contactForm = document.getElementById("contactForm");
+    const summary = document.getElementById("summary");
+
+    contactForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const subject = document.getElementById("subject").value.trim();
+        const message = document.getElementById("message").value.trim();
+
+        if (!name || !email || !subject || !message) {
+            alert("Please complete all fields.");
+            return;
+        }
+
+        // Use textContent to display user input safely
+        document.getElementById("summaryName").textContent =
+            "Name: " + name;
+
+        document.getElementById("summaryEmail").textContent =
+            "Email: " + email;
+
+        document.getElementById("summarySubject").textContent =
+            "Subject: " + subject;
+
+        document.getElementById("summaryMessage").textContent =
+            "Message: " + message;
+
+        summary.classList.add("visible");
+    });
+</script>
+
+</body>
+</html>

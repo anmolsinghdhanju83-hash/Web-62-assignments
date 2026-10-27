@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage Lifecycle</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        input {
+            padding: 10px;
+            width: 65%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 14px;
+            margin: 5px 0;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .step {
+            background: #dbeafe;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Storage Lifecycle Demo</h1>
+
+    <div class="step">
+        <b>1. Load:</b> Read saved information from localStorage.
+    </div>
+
+    <div class="step">
+        <b>2. Update:</b> Enter a new student name.
+    </div>
+
+    <div class="step">
+        <b>3. Save:</b> Store the updated information.
+    </div>
+
+    <div class="step">
+        <b>4. Render:</b> Display the latest saved information.
+    </div>
+
+    <label for="studentInput">Student Name:</label>
+    <input type="text" id="studentInput"
+           placeholder="Enter student name">
+
+    <button id="saveBtn">Update and Save</button>
+    <button id="clearBtn">Clear Data</button>
+
+    <h2>Displayed Information</h2>
+    <p id="displayName" aria-live="polite"></p>
+    <p id="status" aria-live="polite"></p>
+</div>
+
+<script>
+    const studentInput = document.getElementById("studentInput");
+    const displayName = document.getElementById("displayName");
+    const status = document.getElementById("status");
+
+    // Step 4: Render data on the page
+    function renderStudent(name) {
+        displayName.textContent = name
+            ? "Saved student: " + name
+            : "No student data saved.";
+    }
+
+    // Step 1: Load saved data
+    function loadStudent() {
+        try {
+            const name = localStorage.getItem("lifecycleStudent") || "";
+            studentInput.value = name;
+            renderStudent(name);
+            status.textContent = "Saved data loaded.";
+        } catch (error) {
+            renderStudent("");
+            status.textContent = "Could not load saved data.";
+        }
+    }
+
+    // Steps 2 and 3: Update and save
+    document.getElementById("saveBtn").addEventListener("click", function () {
+        const name = studentInput.value.trim();
+
+        if (name === "") {
+            status.textContent = "Please enter a student name.";
+            return;
+        }
+
+        try {
+            localStorage.setItem("lifecycleStudent", name);
+
+            // Step 4: Render the updated data
+            renderStudent(name);
+            status.textContent = "Data updated and saved successfully.";
+        } catch (error) {
+            status.textContent = "Unable to save data.";
+        }
+    });
+
+    // Clear saved data
+    document.getElementById("clearBtn").addEventListener("click", function () {
+        try {
+            localStorage.removeItem("lifecycleStudent");
+            studentInput.value = "";
+            renderStudent("");
+            status.textContent = "Saved data cleared.";
+        } catch (error) {
+            status.textContent = "Unable to clear saved data.";
+        }
+    });
+
+    // Load data when the page starts
+    loadStudent();
+</script>
+
+</body>
+</html>

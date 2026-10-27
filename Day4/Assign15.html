@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf2ff;
+            padding: 30px;
+        }
+
+        .profile {
+            max-width: 400px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #00000020;
+        }
+
+        h1 {
+            color: #173b6c;
+        }
+
+        p {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="profile">
+        <h1>Student Profile</h1>
+        <div id="studentDetails"></div>
+    </div>
+
+    <script>
+        // String variable
+        let studentName = "Anmol Singh";
+        let course = "BCA AI";
+
+        // Number variable
+        let age = 19;
+        let marks = 85.5;
+
+        // Boolean variable
+        let isEnrolled = true;
+
+        // Array variable
+        let subjects = ["HTML", "CSS", "JavaScript"];
+
+        // Object variable
+        let address = {
+            city: "Bareilly",
+            state: "Uttar Pradesh"
+        };
+
+        // Display student information
+        document.getElementById("studentDetails").innerHTML = `
+            <p><strong>Name:</strong> ${studentName}</p>
+            <p><strong>Course:</strong> ${course}</p>
+            <p><strong>Age:</strong> ${age}</p>
+            <p><strong>Marks:</strong> ${marks}%</p>
+            <p><strong>Enrolled:</strong> ${isEnrolled}</p>
+            <p><strong>Subjects:</strong> ${subjects.join(", ")}</p>
+            <p><strong>City:</strong> ${address.city}</p>
+            <p><strong>State:</strong> ${address.state}</p>
+        `;
+    </script>
+</body>
+</html>

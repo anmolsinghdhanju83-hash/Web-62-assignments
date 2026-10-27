@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Debugging</title>
+</head>
+<body>
+    <h1>Debugging JavaScript</h1>
+    <pre id="output"></pre>
+
+    <script>
+        // Bug 1 fixed: use let instead of an undeclared variable
+        let number = 10;
+
+        // Bug 2 fixed: use === for strict comparison
+        let age = 20;
+        let message = "";
+
+        if (age === 20) {
+            message = "Age is 20";
+        } else {
+            message = "Age is not 20";
+        }
+
+        // Bug 3 fixed: use <= to include 5
+        let loopResult = "";
+
+        for (let i = 1; i <= 5; i++) {
+            loopResult += i + " ";
+        }
+
+        // Bug 4 fixed: return the calculated result
+        function add(a, b) {
+            return a + b;
+        }
+
+        // Bug 5 fixed: use the correct variable name
+        let total = add(10, 20);
+
+        // Display results safely
+        document.getElementById("output").textContent =
+            "Number: " + number +
+            "\n" + message +
+            "\nLoop: " + loopResult +
+            "\nAddition: " + total;
+    </script>
+</body>
+</html>

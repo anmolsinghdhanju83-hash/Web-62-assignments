@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #edf3ff;
+            padding: 30px;
+        }
+
+        .calculator {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #00000020;
+            text-align: center;
+        }
+
+        h1 {
+            color: #173b6c;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 20px 0;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 5px;
+            background: #173b6c;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #24569a;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="calculator">
+        <h1>Grade Calculator</h1>
+        <p>Enter your marks (0–100):</p>
+
+        <input
+            type="number"
+            id="marks"
+            min="0"
+            max="100"
+            placeholder="Enter marks"
+        >
+
+        <br>
+
+        <button onclick="calculateGrade()">Calculate Grade</button>
+
+        <p id="result" aria-live="polite"></p>
+    </div>
+
+    <script>
+        function calculateGrade() {
+            let marks = document.getElementById("marks").value;
+            let result = document.getElementById("result");
+
+            // Check for empty or invalid input
+            if (marks.trim() === "") {
+                result.textContent = "Please enter your marks.";
+                return;
+            }
+
+            marks = Number(marks);
+
+            if (!Number.isFinite(marks) || marks < 0 || marks > 100) {
+                result.textContent = "Enter valid marks between 0 and 100.";
+            }
+            else if (marks >= 90) {
+                result.textContent = "Grade: A+";
+            }
+            else if (marks >= 80) {
+                result.textContent = "Grade: A";
+            }
+            else if (marks >= 70) {
+                result.textContent = "Grade: B";
+            }
+            else if (marks >= 60) {
+                result.textContent = "Grade: C";
+            }
+            else if (marks >= 40) {
+                result.textContent = "Grade: D";
+            }
+            else {
+                result.textContent = "Grade: F (Fail)";
+            }
+        }
+    </script>
+</body>
+</html>

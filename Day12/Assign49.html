@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persistent To-Do App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eff6ff;
+            padding: 25px 15px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d4ed8;
+        }
+
+        .add-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 0;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 9px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            background: #2563eb;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .filters button {
+            background: #64748b;
+        }
+
+        .filters button.active {
+            background: #1d4ed8;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 7px;
+        }
+
+        .task-text {
+            flex: 1;
+            overflow-wrap: anywhere;
+        }
+
+        .completed .task-text {
+            text-decoration: line-through;
+            color: #64748b;
+        }
+
+        .edit-btn {
+            background: #d97706;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+        #message {
+            min-height: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            li {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>My Persistent To-Do List</h1>
+
+    <form id="taskForm" class="add-form">
+        <input type="text" id="taskInput"
+               placeholder="Enter a task"
+               aria-label="Task name" required>
+        <button type="submit" id="submitBtn">Add Task</button>
+    </form>
+
+    <p id="message" aria-live="polite"></p>
+
+    <div class="filters" aria-label="Filter tasks">
+        <button type="button" class="active"
+                data-filter="all">All</button>
+        <button type="button"
+                data-filter="pending">Pending</button>
+        <button type="button"
+                data-filter="completed">Completed</button>
+    </div>
+
+    <ul id="taskList"></ul>
+    <p id="taskCount" aria-live="polite"></p>
+</div>
+
+<script>
+    const STORAGE_KEY = "persistentTodoTasks";
+
+    let tasks = [];
+    let currentFilter = "all";
+    let editingId = null;
+    let nextId = 1;
+
+    const taskForm = document.getElementById("taskForm");
+    const taskInput = document.getElementById("taskInput");
+    const submitBtn = document.getElementById("submitBtn");
+    const taskList = document.getElementById("taskList");
+    const message = document.getElementById("message");
+    const taskCount = document.getElementById("taskCount");
+    const filterButtons = document.querySelectorAll("[data-filter]");
+
+    // Load saved tasks from localStorage
+    function loadTasks() {
+        try {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+
+            if (savedData === null) {
+                tasks = [];
+                return;
+            }
+
+            const parsedData = JSON.parse(savedData);
+
+            // Check that the saved data is an array of valid tasks
+            if (
+                !Array.isArray(parsedData) ||
+                !parsedData.every(function (task) {
+                    return task &&
+                        Number.isSafeInteger(task.id) &&
+                        task.id > 0 &&
+                        typeof task.text === "string" &&
+                        task.text.trim() !== "" &&
+                        typeof task.completed === "boolean";
+                })
+            ) {
+                tasks = [];
+                message.textContent =
+                    "Saved task data is invalid. Starting with an empty list.";
+                return;
+            }
+
+            tasks = parsedData;
+            nextId = tasks.reduce(function (maximum, task) {
+                return Math.max(maximum, task.id);
+            }, 0) + 1;
+
+        } catch (error) {
+            tasks = [];
+            message.textContent =
+                "Unable to load saved tasks.";
+        }
+    }
+
+    // Save tasks to localStorage
+    function saveTasks() {
+        try {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(tasks)
+            );
+            return true;
+        } catch (error) {
+            message.textContent =
+                "Unable to save tasks. Browser storage may be full or unavailable.";
+            return false;
+        }
+    }
+
+    // Add a new task or update an existing task
+    taskForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const text = taskInput.value.trim();
+
+        if (text === "") {
+            message.textContent = "Please enter a task.";
+            return;
+        }
+
+        if (editingId !== null) {
+            const task = tasks.find(function (item) {
+                return item.id === editingId;
+            });
+
+            if (!task) {
+                message.textContent = "Task not found.";
+                return;
+            }
+
+            const oldText = task.text;
+            task.text = text;
+
+            if (!saveTasks()) {
+                task.text = oldText;
+                return;
+            }
+
+            message.textContent = "Task updated successfully.";
+            editingId = null;
+            submitBtn.textContent = "Add Task";
+
+        } else {
+            const newTask = {
+                id: nextId++,
+                text: text,
+                completed: false
+            };
+
+            tasks.push(newTask);
+
+            if (!saveTasks()) {
+                tasks.pop();
+                nextId--;
+                return;
+            }
+
+            message.textContent = "Task added successfully.";
+        }
+
+        taskInput.value = "";
+        renderTasks();
+    });
+
+    // Render tasks based on the current filter
+    function renderTasks() {
+        taskList.replaceChildren();
+
+        const visibleTasks = tasks.filter(function (task) {
+            if (currentFilter === "pending") {
+                return !task.completed;
+            }
+
+            if (currentFilter === "completed") {
+                return task.completed;
+            }
+
+            return true;
+        });
+
+        visibleTasks.forEach(function (task) {
+            const li = document.createElement("li");
+
+            if (task.completed) {
+                li.classList.add("completed");
+            }
+
+            // Checkbox for task completion
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.checked = task.completed;
+            checkbox.setAttribute(
+                "aria-label", "Complete task: " + task.text
+            );
+
+            checkbox.addEventListener("change", function () {
+                const oldValue = task.completed;
+                task.completed = checkbox.checked;
+
+                if (!saveTasks()) {
+                    task.completed = oldValue;
+                }
+
+                renderTasks();
+            });
+
+            // Safe text rendering
+            const span = document.createElement("span");
+            span.className = "task-text";
+            span.textContent = task.text;
+
+            // Edit button
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.className = "edit-btn";
+            editButton.textContent = "Edit";
+
+            editButton.addEventListener("click", function () {
+                editingId = task.id;
+                taskInput.value = task.text;
+                submitBtn.textContent = "Save Edit";
+                message.textContent = "Edit the task and save it.";
+                taskInput.focus();
+            });
+
+            // Delete button
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "delete-btn";
+            deleteButton.textContent = "Delete";
+
+            deleteButton.addEventListener("click", function () {
+                const oldTasks = tasks;
+                tasks = tasks.filter(function (item) {
+                    return item.id !== task.id;
+                });
+
+                if (!saveTasks()) {
+                    tasks = oldTasks;
+                    renderTasks();
+                    return;
+                }
+
+                if (editingId === task.id) {
+                    editingId = null;
+                    taskInput.value = "";
+                    submitBtn.textContent = "Add Task";
+                }
+
+                message.textContent = "Task deleted.";
+                renderTasks();
+            });
+
+            li.append(checkbox, span, editButton, deleteButton);
+            taskList.appendChild(li);
+        });
+
+        if (visibleTasks.length === 0) {
+            const emptyItem = document.createElement("li");
+            emptyItem.textContent = "No tasks to display.";
+            taskList.appendChild(emptyItem);
+        }
+
+        const completedCount = tasks.filter(function (task) {
+            return task.completed;
+        }).length;
+
+        taskCount.textContent =
+            "Total: " + tasks.length +
+            " | Pending: " + (tasks.length - completedCount) +
+            " | Completed: " + completedCount;
+    }
+
+    // Filter tasks
+    filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            currentFilter = button.dataset.filter;
+
+            filterButtons.forEach(function (item) {
+                item.classList.toggle("active", item === button);
+            });
+
+            renderTasks();
+        });
+    });
+
+    // Initial load and render
+    loadTasks();
+    renderTasks();
+</script>
+
+</body>
+</html>

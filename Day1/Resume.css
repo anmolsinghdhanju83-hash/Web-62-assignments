@@ -1,0 +1,51 @@
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e2e8f0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .resume {
+            max-width: 750px;
+            margin: auto;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px #94a3b8;
+        }
+
+        .header {
+            background-color: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .content {
+            padding: 25px;
+        }
+
+        h2 {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 5px;
+        }
+
+        .item {
+            margin-bottom: 20px;
+        }
+
+        .skills span {
+            display: inline-block;
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #f1f5f9;
+            padding: 15px;
+        }

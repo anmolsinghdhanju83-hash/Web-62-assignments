@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Selection Challenge</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #edf3ff;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #00000015;
+        }
+
+        .card {
+            background: #f1f5f9;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background: #173b6c;
+            color: white;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 12px;
+            background: #e8f5e9;
+            white-space: pre-wrap;
+        }
+
+        .highlight {
+            background: #ffefad;
+            border: 2px solid #e0a800;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="pageTitle">DOM Selection Challenge</h1>
+
+        <p class="info">Learn how to select HTML elements.</p>
+
+        <div class="card">Card 1: HTML</div>
+        <div class="card">Card 2: CSS</div>
+        <div class="card">Card 3: JavaScript</div>
+
+        <button id="selectId">Select by ID</button>
+        <button id="selectClass">Select by Class</button>
+        <button id="selectTag">Select by Tag</button>
+        <button id="selectQuery">Select with querySelector</button>
+        <button id="selectAll">Select All Cards</button>
+
+        <pre id="output">Click a button to test a selection method.</pre>
+    </div>
+
+    <script>
+        const output = document.getElementById("output");
+
+        // 1. Select one element by ID
+        document.getElementById("selectId").addEventListener(
+            "click",
+            function () {
+                const title = document.getElementById("pageTitle");
+
+                title.textContent = "Title Selected by ID";
+                output.textContent =
+                    "getElementById() selected the page title.";
+            }
+        );
+
+        // 2. Select elements by class name
+        document.getElementById("selectClass").addEventListener(
+            "click",
+            function () {
+                const cards = document.getElementsByClassName("card");
+
+                for (const card of cards) {
+                    card.classList.add("highlight");
+                }
+
+                output.textContent =
+                    "getElementsByClassName() found " +
+                    cards.length + " cards.";
+            }
+        );
+
+        // 3. Select elements by tag name
+        document.getElementById("selectTag").addEventListener(
+            "click",
+            function () {
+                const paragraphs =
+                    document.getElementsByTagName("p");
+
+                output.textContent =
+                    "getElementsByTagName() found " +
+                    paragraphs.length + " paragraph element(s).";
+            }
+        );
+
+        // 4. Select the first matching element
+        document.getElementById("selectQuery").addEventListener(
+            "click",
+            function () {
+                const firstCard = document.querySelector(".card");
+
+                firstCard.classList.add("highlight");
+
+                output.textContent =
+                    "querySelector() selected: " +
+                    firstCard.textContent;
+            }
+        );
+
+        // 5. Select all matching elements
+        document.getElementById("selectAll").addEventListener(
+            "click",
+            function () {
+                const cards = document.querySelectorAll(".card");
+
+                cards.forEach(function (card) {
+                    card.classList.toggle("highlight");
+                });
+
+                output.textContent =
+                    "querySelectorAll() found " +
+                    cards.length + " cards. Highlight toggled.";
+            }
+        );
+    </script>
+</body>
+</html>

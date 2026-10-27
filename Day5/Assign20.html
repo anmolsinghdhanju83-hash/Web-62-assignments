@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Utility Functions</title>
+</head>
+<body>
+    <h1>Math Utility Functions</h1>
+    <pre id="output"></pre>
+
+    <!-- Load the utility JavaScript file first -->
+    <script src="mathUtils.js"></script>
+
+    <script>
+        const results = [];
+
+        // Test the five functions
+        results.push("Addition (10 + 5): " + add(10, 5));
+        results.push("Subtraction (10 - 5): " + subtract(10, 5));
+        results.push("Multiplication (10 * 5): " + multiply(10, 5));
+        results.push("Division (10 / 5): " + divide(10, 5));
+        results.push("Factorial (5!): " + factorial(5));
+
+        // Display all results
+        document.getElementById("output").textContent =
+            results.join("\n");
+    </script>
+</body>
+</html>

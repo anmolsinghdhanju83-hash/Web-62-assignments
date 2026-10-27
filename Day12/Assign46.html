@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persistent Settings Panel</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+            padding: 30px;
+            transition: 0.2s;
+        }
+
+        .panel {
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, select {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        body.dark {
+            background: #0f172a;
+            color: #f8fafc;
+        }
+
+        body.dark .panel {
+            background: #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="panel">
+    <h1>Settings Panel</h1>
+
+    <label for="userName">Your Name</label>
+    <input type="text" id="userName" placeholder="Enter your name">
+
+    <label for="theme">Choose Theme</label>
+    <select id="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+    </select>
+
+    <label for="fontSize">Font Size</label>
+    <select id="fontSize">
+        <option value="14">Small (14px)</option>
+        <option value="16">Medium (16px)</option>
+        <option value="20">Large (20px)</option>
+    </select>
+
+    <button id="saveBtn">Save Settings</button>
+    <button id="resetBtn">Reset Settings</button>
+
+    <p id="message" aria-live="polite"></p>
+    <h2 id="greeting">Welcome!</h2>
+</div>
+
+<script>
+    const userName = document.getElementById("userName");
+    const theme = document.getElementById("theme");
+    const fontSize = document.getElementById("fontSize");
+    const message = document.getElementById("message");
+    const greeting = document.getElementById("greeting");
+
+    const defaultSettings = {
+        name: "",
+        theme: "light",
+        fontSize: "16"
+    };
+
+    // Apply settings to the webpage
+    function applySettings(settings) {
+        document.body.classList.toggle(
+            "dark",
+            settings.theme === "dark"
+        );
+
+        document.body.style.fontSize =
+            settings.fontSize + "px";
+
+        userName.value = settings.name;
+        theme.value = settings.theme;
+        fontSize.value = settings.fontSize;
+
+        greeting.textContent = settings.name
+            ? "Welcome, " + settings.name + "!"
+            : "Welcome!";
+    }
+
+    // Load saved settings when the page opens
+    function loadSettings() {
+        try {
+            const saved = localStorage.getItem("userSettings");
+
+            if (!saved) {
+                applySettings(defaultSettings);
+                return;
+            }
+
+            const settings = JSON.parse(saved);
+
+            // Validate stored values before applying them
+            const safeSettings = {
+                name: typeof settings.name === "string"
+                    ? settings.name : "",
+                theme: settings.theme === "dark"
+                    ? "dark" : "light",
+                fontSize: ["14", "16", "20"].includes(
+                    String(settings.fontSize)
+                ) ? String(settings.fontSize) : "16"
+            };
+
+            applySettings(safeSettings);
+        } catch (error) {
+            applySettings(defaultSettings);
+            message.textContent =
+                "Saved settings could not be read. Defaults loaded.";
+        }
+    }
+
+    // Save current preferences
+    document.getElementById("saveBtn").addEventListener("click", function () {
+        const settings = {
+            name: userName.value.trim(),
+            theme: theme.value,
+            fontSize: fontSize.value
+        };
+
+        try {
+            localStorage.setItem(
+                "userSettings",
+                JSON.stringify(settings)
+            );
+
+            applySettings(settings);
+            message.textContent = "Settings saved successfully.";
+        } catch (error) {
+            message.textContent = "Unable to save settings.";
+        }
+    });
+
+    // Reset preferences
+    document.getElementById("resetBtn").addEventListener("click", function () {
+        try {
+            localStorage.removeItem("userSettings");
+        } catch (error) {
+            message.textContent = "Unable to clear saved settings.";
+            return;
+        }
+
+        applySettings(defaultSettings);
+        message.textContent = "Settings reset to default.";
+    });
+
+    loadSettings();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading List</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2ff;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3730a3;
+        }
+
+        input {
+            width: 65%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #4f46e5;
+            color: white;
+            margin: 3px;
+        }
+
+        li {
+            padding: 10px;
+            margin-top: 8px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .read {
+            text-decoration: line-through;
+            color: #15803d;
+        }
+
+        #message {
+            color: #b91c1c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>My Reading List</h1>
+
+    <form id="bookForm">
+        <input type="text" id="bookInput"
+               placeholder="Enter book name" required>
+        <button type="submit">Add Book</button>
+    </form>
+
+    <p id="message" aria-live="polite"></p>
+    <ul id="bookList"></ul>
+</div>
+
+<script>
+    const bookForm = document.getElementById("bookForm");
+    const bookInput = document.getElementById("bookInput");
+    const bookList = document.getElementById("bookList");
+    const message = document.getElementById("message");
+
+    bookForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const bookName = bookInput.value.trim();
+
+        if (bookName === "") {
+            message.textContent = "Please enter a book name.";
+            return;
+        }
+
+        const li = document.createElement("li");
+        const title = document.createElement("span");
+        title.textContent = bookName;
+
+        const readButton = document.createElement("button");
+        readButton.textContent = "Mark Read";
+
+        readButton.addEventListener("click", function () {
+            const isRead = title.classList.toggle("read");
+            readButton.textContent = isRead ? "Unread" : "Mark Read";
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", function () {
+            li.remove();
+        });
+
+        li.append(title, readButton, deleteButton);
+        bookList.appendChild(li);
+
+        bookInput.value = "";
+        message.textContent = "Book added successfully.";
+        bookInput.focus();
+    });
+</script>
+
+</body>
+</html>

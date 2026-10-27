@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Portfolio</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* Responsive navigation */
+        nav {
+            background: #172554;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav h2 {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        /* Profile section */
+        .hero {
+            text-align: center;
+            padding: 65px 20px;
+            background: #dbeafe;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+        }
+
+        .hero p {
+            max-width: 550px;
+            margin: 15px auto;
+            line-height: 1.7;
+        }
+
+        .hero button {
+            background: #2563eb;
+            color: white;
+            padding: 12px 22px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* Responsive project cards */
+        .projects {
+            padding: 35px 6%;
+        }
+
+        .projects h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .project-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        .project-card h3 {
+            color: #2563eb;
+        }
+
+        .project-card p {
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            background: #172554;
+            color: white;
+            padding: 20px;
+        }
+
+        /* Tablet screen */
+        @media (max-width: 800px) {
+            .project-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+        }
+
+        /* Mobile screen */
+        @media (max-width: 550px) {
+            nav {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 8px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 40px 18px;
+            }
+
+            .hero h1 {
+                font-size: 26px;
+            }
+
+            .projects {
+                padding: 25px 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h2>Anmol Portfolio</h2>
+
+        <div>
+            <a href="#home">Home</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Hello, I'm Anmol Singh</h1>
+        <p>
+            I am a BCA AI student learning web development.
+            I enjoy creating responsive websites using HTML and CSS.
+        </p>
+        <button type="button"
+                onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+            View My Projects
+        </button>
+    </section>
+
+    <section class="projects" id="projects">
+        <h2>My Projects</h2>
+
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Profile Card</h3>
+                <p>A personal profile card designed with CSS.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Login Page</h3>
+                <p>A centered login form with responsive styling.</p>
+            </div>
+
+            <div class="project-card">
+                <h3>Product Grid</h3>
+                <p>A product layout using CSS Grid.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>Contact: student@example.com</p>
+        <p>&copy; 2026 Anmol Portfolio</p>
+    </footer>
+</body>
+</html>

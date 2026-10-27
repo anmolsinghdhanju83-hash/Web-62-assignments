@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reusable Card Rendering</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 30px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e293b;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(220px, 1fr)
+            );
+            gap: 20px;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            color: #2563eb;
+            margin-top: 0;
+        }
+
+        .price {
+            color: #15803d;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .category {
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Product Cards</h1>
+
+    <!-- Cards will be added here using JavaScript -->
+    <div class="card-container" id="cardContainer"></div>
+
+    <script>
+        // Product data stored in an array of objects
+        const products = [
+            {
+                name: "Laptop",
+                price: 55000,
+                category: "Electronics",
+                description: "A laptop for study and work."
+            },
+            {
+                name: "Headphones",
+                price: 1500,
+                category: "Accessories",
+                description: "Comfortable headphones for music."
+            },
+            {
+                name: "Keyboard",
+                price: 2000,
+                category: "Accessories",
+                description: "A keyboard for daily computer use."
+            },
+            {
+                name: "Smartphone",
+                price: 25000,
+                category: "Electronics",
+                description: "A smartphone for everyday tasks."
+            }
+        ];
+
+        const cardContainer =
+            document.getElementById("cardContainer");
+
+        // Reusable function to create one product card
+        function createCard(product) {
+            const card = document.createElement("div");
+            card.classList.add("card");
+
+            const title = document.createElement("h2");
+            title.textContent = product.name;
+
+            const price = document.createElement("p");
+            price.classList.add("price");
+            price.textContent = "₹" + product.price.toLocaleString("en-IN");
+
+            const category = document.createElement("p");
+            category.classList.add("category");
+            category.textContent = "Category: " + product.category;
+
+            const description = document.createElement("p");
+            description.textContent = product.description;
+
+            // Add elements to the card
+            card.append(title, price, category, description);
+
+            return card;
+        }
+
+        // Reusable function to render all cards
+        function renderCards(productList) {
+            // Clear previously rendered cards
+            cardContainer.replaceChildren();
+
+            productList.forEach(function (product) {
+                const card = createCard(product);
+                cardContainer.appendChild(card);
+            });
+        }
+
+        // Display all product cards
+        renderCards(products);
+    </script>
+
+</body>
+</html>
+

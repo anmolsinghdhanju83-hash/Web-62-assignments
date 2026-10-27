@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .profile {
+            background: white;
+            max-width: 350px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+            transition: 0.3s;
+        }
+
+        .profile.highlight {
+            background: #dbeafe;
+            border: 2px solid #2563eb;
+        }
+
+        .profile h2 {
+            color: #1f2937;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+        }
+
+        .status {
+            color: #166534;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile" id="profileCard">
+        <h1>Student Profile</h1>
+        <h2>Anmol Singh</h2>
+        <p>Course: BCA (AI)</p>
+        <p>Skills: HTML, CSS, JavaScript</p>
+
+        <button id="highlightBtn"
+                aria-pressed="false">
+            Highlight Profile
+        </button>
+
+        <p id="statusMessage" class="status"
+           aria-live="polite">
+            Profile is in normal mode.
+        </p>
+    </div>
+
+    <script>
+        const profileCard = document.getElementById("profileCard");
+        const highlightBtn = document.getElementById("highlightBtn");
+        const statusMessage = document.getElementById("statusMessage");
+
+        highlightBtn.addEventListener("click", function () {
+            // Toggle the highlight CSS class
+            const isHighlighted =
+                profileCard.classList.toggle("highlight");
+
+            // Update accessible button state
+            highlightBtn.setAttribute(
+                "aria-pressed",
+                String(isHighlighted)
+            );
+
+            if (isHighlighted) {
+                highlightBtn.textContent = "Remove Highlight";
+                statusMessage.textContent = "Profile is highlighted.";
+            } else {
+                highlightBtn.textContent = "Highlight Profile";
+                statusMessage.textContent = "Profile is in normal mode.";
+            }
+        });
+    </script>
+
+</body>
+</html>

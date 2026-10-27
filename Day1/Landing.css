@@ -1,0 +1,98 @@
+* {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: #1e293b;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: white;
+        }
+
+        .logo {
+            color: #4f46e5;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: #334155;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4f46e5, #9333ea);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: white;
+            color: #4f46e5;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 50px 8%;
+            background-color: #f8fafc;
+        }
+
+        .feature {
+            flex: 1;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px #e2e8f0;
+        }
+
+        .feature h3 {
+            color: #4f46e5;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .features {
+                flex-direction: column;
+            }
+        }

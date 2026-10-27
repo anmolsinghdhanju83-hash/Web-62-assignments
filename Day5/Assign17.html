@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Loop Problems</title>
+</head>
+<body>
+    <h1>JavaScript Loop Problems</h1>
+    <pre id="output"></pre>
+
+    <script>
+        let output = "";
+
+        // 1. Print numbers from 1 to 10
+        output += "1. Numbers from 1 to 10:\n";
+
+        for (let i = 1; i <= 10; i++) {
+            output += i + " ";
+        }
+
+        // 2. Calculate the sum from 1 to 10
+        let sum = 0;
+
+        for (let i = 1; i <= 10; i++) {
+            sum += i;
+        }
+
+        output += "\n\n2. Sum from 1 to 10: " + sum;
+
+        // 3. Print the multiplication table of 5
+        output += "\n\n3. Multiplication Table of 5:\n";
+
+        for (let i = 1; i <= 10; i++) {
+            output += `5 x ${i} = ${5 * i}\n`;
+        }
+
+        // 4. Find the factorial of 5 using a while loop
+        let number = 5;
+        let factorial = 1;
+        let i = 1;
+
+        while (i <= number) {
+            factorial *= i;
+            i++;
+        }
+
+        output += "\n4. Factorial of 5: " + factorial;
+
+        // Display results
+        document.getElementById("output").textContent = output;
+    </script>
+</body>
+</html>

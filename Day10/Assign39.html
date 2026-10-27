@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Student Profile</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e0f2fe;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #0002;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            background: #0369a1;
+            color: white;
+            cursor: pointer;
+        }
+
+        .details {
+            display: none;
+            background: #f0f9ff;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .details.visible {
+            display: block;
+        }
+
+        .event-map {
+            text-align: left;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="studentName">Anmol Singh</h1>
+        <p>BCA (Artificial Intelligence)</p>
+
+        <button id="changeNameBtn">Change Name</button>
+        <button id="detailsBtn"
+                aria-expanded="false">
+            Show Details
+        </button>
+
+        <div class="details" id="details">
+            <p>Skills: HTML, CSS, JavaScript</p>
+            <p>Interest: Web Development</p>
+            <p>Goal: Become a Developer</p>
+        </div>
+
+        <p id="status" aria-live="polite">
+            Welcome to my profile!
+        </p>
+
+        <div class="event-map">
+            <h2>Event Map</h2>
+            <ul>
+                <li><b>Click — Change Name:</b> Updates the student name.</li>
+                <li><b>Click — Show Details:</b> Shows or hides profile details.</li>
+                <li><b>Click — Hide Details:</b> Hides the details again.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const studentName = document.getElementById("studentName");
+        const changeNameBtn = document.getElementById("changeNameBtn");
+        const detailsBtn = document.getElementById("detailsBtn");
+        const details = document.getElementById("details");
+        const status = document.getElementById("status");
+
+        // Event 1: Change the displayed student name
+        changeNameBtn.addEventListener("click", function () {
+            studentName.textContent = "Anmol Singh - Student";
+            status.textContent = "Student name updated.";
+        });
+
+        // Event 2: Show or hide profile details
+        detailsBtn.addEventListener("click", function () {
+            const isVisible = details.classList.toggle("visible");
+
+            detailsBtn.setAttribute(
+                "aria-expanded",
+                String(isVisible)
+            );
+
+            detailsBtn.textContent = isVisible
+                ? "Hide Details"
+                : "Show Details";
+
+            status.textContent = isVisible
+                ? "Profile details are visible."
+                : "Profile details are hidden.";
+        });
+    </script>
+
+</body>
+</html>

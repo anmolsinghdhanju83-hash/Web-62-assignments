@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Node Relationships</title>
+</head>
+<body>
+    <main id="mainContainer">
+        <h1 id="heading">Student Profile</h1>
+
+        <section id="profile">
+            <p id="studentName">Name: Anmol</p>
+            <p id="studentCourse">Course: BCA AI</p>
+        </section>
+
+        <button id="showButton">Show Relationships</button>
+
+        <pre id="output"></pre>
+    </main>
+
+    <script>
+        const main = document.getElementById("mainContainer");
+        const heading = document.getElementById("heading");
+        const profile = document.getElementById("profile");
+        const name = document.getElementById("studentName");
+        const course = document.getElementById("studentCourse");
+        const output = document.getElementById("output");
+
+        document.getElementById("showButton").addEventListener(
+            "click",
+            function () {
+                const results = [
+                    "DOM NODE RELATIONSHIPS",
+                    "Main tag: " + main.tagName,
+                    "Heading parent: " + heading.parentElement.tagName,
+                    "Profile parent: " + profile.parentElement.tagName,
+                    "Profile first child: " + profile.firstElementChild.id,
+                    "Profile last child: " + profile.lastElementChild.id,
+                    "Name next sibling: " + name.nextElementSibling.id,
+                    "Course previous sibling: " + course.previousElementSibling.id,
+                    "Main children: " + main.children.length
+                ];
+
+                output.textContent = results.join("\n");
+            }
+        );
+    </script>
+</body>
+</html>

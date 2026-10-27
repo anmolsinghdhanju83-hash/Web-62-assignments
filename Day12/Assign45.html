@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Storage Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 25px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #dbeafe;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>localStorage vs sessionStorage</h1>
+
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>localStorage</th>
+            <th>sessionStorage</th>
+        </tr>
+        <tr>
+            <td>Storage duration</td>
+            <td>Until cleared by the user or code</td>
+            <td>Usually until the tab's page session ends</td>
+        </tr>
+        <tr>
+            <td>Data after refresh</td>
+            <td>Remains available</td>
+            <td>Remains available</td>
+        </tr>
+        <tr>
+            <td>Sharing between tabs</td>
+            <td>Generally shared for the same origin</td>
+            <td>Separate for each tab's page session</td>
+        </tr>
+        <tr>
+            <td>Common use</td>
+            <td>Theme and saved preferences</td>
+            <td>Temporary tab-specific information</td>
+        </tr>
+        <tr>
+            <td>JavaScript methods</td>
+            <td>setItem(), getItem(), removeItem()</td>
+            <td>setItem(), getItem(), removeItem()</td>
+        </tr>
+    </table>
+
+    <h2>Practical Example</h2>
+    <button onclick="saveData()">Save Data</button>
+    <button onclick="readData()">Read Data</button>
+    <p id="result" aria-live="polite"></p>
+
+    <script>
+        function saveData() {
+            localStorage.setItem("studentName", "Anmol");
+            sessionStorage.setItem("studentCourse", "BCA AI");
+
+            document.getElementById("result").textContent =
+                "Data saved in both storage types.";
+        }
+
+        function readData() {
+            const name = localStorage.getItem("studentName");
+            const course = sessionStorage.getItem("studentCourse");
+
+            document.getElementById("result").textContent =
+                "Name: " + (name || "Not saved") +
+                " | Course: " + (course || "Not saved");
+        }
+    </script>
+</div>
+</body>
+</html>

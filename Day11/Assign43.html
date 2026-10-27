@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Test Matrix</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            padding: 25px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px #0002;
+            overflow-x: auto;
+        }
+
+        h1 {
+            color: #4338ca;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #e0e7ff;
+        }
+
+        .pass {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Form Validation Test Matrix</h1>
+    <p>
+        Rule: Name must contain at least 3 characters.
+        Email must have a valid format.
+        Age must be between 18 and 100.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Test</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Expected</th>
+                <th>Actual</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody id="testResults"></tbody>
+    </table>
+
+    <h3 id="testSummary" aria-live="polite"></h3>
+</div>
+
+<script>
+    // Validation function
+    function validateForm(name, email, age) {
+        const validName = name.trim().length >= 3;
+
+        const validEmail =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+        const numericAge = Number(age);
+        const validAge =
+            age !== "" &&
+            Number.isFinite(numericAge) &&
+            numericAge >= 18 &&
+            numericAge <= 100;
+
+        return validName && validEmail && validAge;
+    }
+
+    // Test cases: input values and expected outcomes
+    const tests = [
+        {
+            name: "Anmol",
+            email: "anmol@example.com",
+            age: "20",
+            expected: true
+        },
+        {
+            name: "Al",
+            email: "anmol@example.com",
+            age: "20",
+            expected: false
+        },
+        {
+            name: "Anmol",
+            email: "invalid-email",
+            age: "20",
+            expected: false
+        },
+        {
+            name: "Anmol",
+            email: "anmol@example.com",
+            age: "15",
+            expected: false
+        },
+        {
+            name: "Anmol",
+            email: "anmol@example.com",
+            age: "abc",
+            expected: false
+        },
+        {
+            name: "   ",
+            email: "anmol@example.com",
+            age: "25",
+            expected: false
+        },
+        {
+            name: "Priya",
+            email: "priya@example.com",
+            age: "100",
+            expected: true
+        }
+    ];
+
+    const testResults = document.getElementById("testResults");
+    let passed = 0;
+
+    tests.forEach(function (test, index) {
+        const actual = validateForm(
+            test.name, test.email, test.age
+        );
+
+        const isPassed = actual === test.expected;
+
+        if (isPassed) {
+            passed++;
+        }
+
+        const row = document.createElement("tr");
+        const values = [
+            index + 1,
+            test.name,
+            test.email,
+            test.age,
+            test.expected ? "Valid" : "Invalid",
+            actual ? "Valid" : "Invalid",
+            isPassed ? "PASS" : "FAIL"
+        ];
+
+        values.forEach(function (value, columnIndex) {
+            const cell = document.createElement("td");
+            cell.textContent = value;
+
+            if (columnIndex === 6) {
+                cell.className = isPassed ? "pass" : "fail";
+            }
+
+            row.appendChild(cell);
+        });
+
+        testResults.appendChild(row);
+    });
+
+    document.getElementById("testSummary").textContent =
+        "Tests passed: " + passed + " out of " + tests.length;
+</script>
+
+</body>
+</html>
